@@ -20,6 +20,7 @@
     },
     "IIS Express": {
       "commandName": "IISExpress",
+      "workingDirectory": "C:\\Users\\jacob\\Desktop\\API\\9.0\\MagicVilla",
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
