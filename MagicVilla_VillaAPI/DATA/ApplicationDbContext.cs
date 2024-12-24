@@ -16,6 +16,7 @@ namespace MagicVilla_VillaAPI.DATA
             optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
         public DbSet<Villa> Villas { get; set; } //Villas: Name of tabel in database
+        public DbSet<VillaNumber > VillaNumbers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -80,6 +81,31 @@ namespace MagicVilla_VillaAPI.DATA
                   Amenity = "",
                   CreateDate = DateTime.Now
               });
+
+            modelBuilder.Entity<VillaNumber>().HasData(
+                new VillaNumber
+                {
+                    VillaNo = 1,
+                    SpecialDetails = "sea view",
+                    CreateDate = DateTime.Now
+                },
+
+                new VillaNumber
+                {
+                    VillaNo = 2,
+                    SpecialDetails = "garden view",
+                    CreateDate = DateTime.Now
+                },
+
+                new VillaNumber
+                {
+                    VillaNo = 3,
+                    SpecialDetails = "wood in the garden",
+                    CreateDate = DateTime.Now
+                }
+
+            );
+
         }
     }
 }
