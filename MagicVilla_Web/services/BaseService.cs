@@ -1,7 +1,9 @@
-﻿using MagicVilla_Utility;
+﻿using Azure.Core;
+using MagicVilla_Utility;
 using MagicVilla_Web.Models;
 using MagicVilla_Web.services.IServices;
 using Newtonsoft.Json;
+using System.Security.AccessControl;
 using System.Security.Cryptography.Xml;
 using System.Text;
 
@@ -12,10 +14,16 @@ namespace MagicVilla_Web.services
         public APIResponse responseModel { get; set; }
 
         public IHttpClientFactory httpClient {  get; set; }
+        //IHttpClientFactory is an interface in .NET Core that provides a central location for naming
+        //and configuring logical HttpClient instances.
+
+        //HttpClient: The HttpClient class in .NET is a fundamental part of the System.Net.Http namespace.
+        //It's designed to provide a flexible and efficient way to send HTTP requests and receive HTTP responses from
+        //a resource identified by a URI.
 
         public BaseService(IHttpClientFactory httpClient)
         {
-            this.responseModel = new();
+            this.responseModel = new(); //istanzio la classe APIResponse
             this.httpClient = httpClient;
         }
 
@@ -23,8 +31,13 @@ namespace MagicVilla_Web.services
         {
             try
             {
-                var client = httpClient.CreateClient("MagicAPI");
+                var client = httpClient.CreateClient("MagicAPI"); //CreateClient("MyClient") creates a new HttpClient instance
+                //with the name "MyClient". You can configure the named client in the Startup class
+
+                //Creating an HttpRequestMessage instance is a great way to customize HTTP requests in .NET.This class allows
+                //you to set various properties such as the HTTP method, request URI, headers, and content.
                 HttpRequestMessage message = new HttpRequestMessage();
+                
                 message.Headers.Add("Accept", "application/json");
                 message.RequestUri = new Uri(apiRequest.Url);
                 if (apiRequest.Data != null)
