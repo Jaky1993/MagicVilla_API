@@ -17,7 +17,7 @@ namespace MagicVilla_Web.Controllers
         {
             _villaService = villaService;
             _mapper = mapper;
-        }   
+        }
 
         public async Task<IActionResult> IndexVilla()
         {
@@ -42,7 +42,7 @@ namespace MagicVilla_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateVilla(VillaCreateDTO model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var response = await _villaService.CreateAsync<APIResponse>(model);
 
@@ -63,9 +63,9 @@ namespace MagicVilla_Web.Controllers
             {
                 VillaDTO model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
 
-                _mapper.Map<VillaUpdateDTO>(model);
+                VillaUpdateDTO villaUpdateDTO = _mapper.Map<VillaUpdateDTO>(model);
 
-                return View(model);
+                return View(villaUpdateDTO);
             }
 
             return NotFound();
@@ -83,6 +83,34 @@ namespace MagicVilla_Web.Controllers
                 {
                     return RedirectToAction(nameof(IndexVilla));
                 }
+            }
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> DeleteVilla(int villaId)
+        {
+            var response = await _villaService.GetAsync<APIResponse>(villaId);
+
+            if (response != null && response.IsSucces)
+            {
+                VillaDTO model = JsonConvert.DeserializeObject<VillaDTO>(Convert.ToString(response.Result));
+
+                return View(model);
+            }
+
+            return NotFound();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteVilla(VillaDTO model)
+        {
+            var response = await _villaService.DeleteAsync<APIResponse>(model.Id);
+
+            if (response != null && response.IsSucces)
+            {
+                return RedirectToAction(nameof(IndexVilla));
             }
 
             return View(model);

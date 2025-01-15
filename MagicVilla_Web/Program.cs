@@ -12,6 +12,9 @@ builder.Services.AddHttpClient<IVillaService, VillaService>();
 builder.Services.AddScoped<IVillaService, VillaService>(); //registriamo il servizio con dependency injection utilizzando AddScoped
 //Per ogni singola richiesta ci sarà la creazione di un oggetto di tipi VillaService anche se verrà richiesto 10 volte si userà lo stesso oggetto
 
+builder.Services.AddHttpClient<IVillaNumberService, VillaNumberService>();
+builder.Services.AddScoped<IVillaNumberService, VillaNumberService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
