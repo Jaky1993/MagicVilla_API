@@ -1,4 +1,4 @@
-﻿using MagicVilla_VillaAPI.Models.DTO;
+﻿using MagicVilla_Web.Models.DTO;
 using System.Security.Cryptography.Xml;
 
 namespace MagicVilla_Web.services.IServices
