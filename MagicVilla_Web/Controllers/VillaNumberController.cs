@@ -3,6 +3,7 @@ using MagicVilla_Web.Models;
 using MagicVilla_Web.Models.DTO;
 using MagicVilla_Web.services;
 using MagicVilla_Web.services.IServices;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -13,6 +14,7 @@ namespace MagicVilla_Web.Controllers
         private readonly IVillaNumberService _villaNumberService;
         private readonly IMapper _mapper;
 
+        //you configure the DI container in Program.cs in .NET 6 and later
         public VillaNumberController(IVillaNumberService villaNumberService, IMapper mapper)
         {
             _villaNumberService = villaNumberService;

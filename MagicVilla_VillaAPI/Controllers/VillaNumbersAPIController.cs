@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using AutoMapper.Features;
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.DTO;
 using MagicVilla_VillaAPI.Repository;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
 using System.Net;
 
 namespace MagicVilla_VillaAPI.Controllers
@@ -31,6 +33,7 @@ namespace MagicVilla_VillaAPI.Controllers
         {
             try
             {
+                //IEnumerable<VillaNumber>, it means you have a collection of VillaNumber objects that you can enumerate through.
                 IEnumerable<VillaNumber> villaNumbersList = await _dbVillaNumber.GetAllAsync(includeProperties: "Villa");
                 _response.Result = _mapper.Map<List<VillaNumberDTO>>(villaNumbersList);
                 _response.StatusCode = HttpStatusCode.OK;
@@ -76,10 +79,20 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [HttpPost("CreateVillaNumber")]
+
+        //API Endpoint that return APIResponse
         public async Task<ActionResult<APIResponse>> CreateVillaNumber([FromBody] VillaNumberCreateDTO villaNumberCreateDTO)
         {
             try
             {
+                //v => v.VillaNo == villaNumberCreateDTO.VillaNo) != null -> LINQ expression.
+                //It's a lambda expression that checks if any villa in your collection
+                //has a VillaNo matching the one in villaNumberCreateDTO.VillaNo
+
+                //Expression<Func<T, TResult>> is a powerful feature in C# that allows you to construct expressions
+                //that can be compiled into executable code or inspected for analysis.
+                //These expressions are particularly useful in scenarios like building dynamic queries or LINQ
+
                 if (await _dbVillaNumber.GetAsync(v => v.VillaNo == villaNumberCreateDTO.VillaNo) != null)
                 {
                     ModelState.AddModelError("CustomError", "VillaNumber already exists!");
