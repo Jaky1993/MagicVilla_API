@@ -24,6 +24,12 @@ namespace MagicVilla_VillaAPI
             CreateMap<VillaNumber, VillaNumberCreateDTO>().ReverseMap();
 
             //ReverseMap(): Automatically creates the reverse mapping from VillaCreateDTO to VillaNumber
+
+            //CreateMap<Customer, CustomerDTO>(); //FROM customer to CustomerDTO -> source to destination
+            CreateMap<Customer, CustomerDTO>().ReverseMap(); //FROM destination to the source or reverse, two way mapping
+
+            CreateMap<CustomerCreateDTO, Customer>().ReverseMap();
+            CreateMap<CustomerUpdateDTO, Customer>().ReverseMap();
         }
        
     }

@@ -10,6 +10,11 @@ namespace MagicVilla_Web.services
         private readonly IHttpClientFactory _clientFactory;
         private string villaUrl;
 
+        /*
+        IConfiguration is an interface in the Microsoft.Extensions.Configuration namespace that provides access
+        to configuration settings in a .NET application. It's commonly used in ASP.NET Core applications 
+        to manage configuration data from various sources like appsettings.json, environment variables, command-line arguments, etc.   
+        */
         public VillaService(IHttpClientFactory clientFactory, IConfiguration configuration) : base(clientFactory)
         {
             _clientFactory = clientFactory;

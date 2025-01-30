@@ -17,6 +17,7 @@ namespace MagicVilla_VillaAPI.DATA
         }
         public DbSet<Villa> Villas { get; set; } //Villas: Name of tabel in database
         public DbSet<VillaNumber > VillaNumbers { get; set; }
+        public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -26,7 +27,7 @@ namespace MagicVilla_VillaAPI.DATA
                     Id = 1,
                     Name = "Royal Villa",
                     Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                    ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa3.jpg",
+                    ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa3.jpg",
                     Occupancy = 4,
                     Rate = 200,
                     Sqft = 550,
@@ -38,7 +39,7 @@ namespace MagicVilla_VillaAPI.DATA
                   Id = 2,
                   Name = "Premium Pool Villa",
                   Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                  ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa1.jpg",
+                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa1.jpg",
                   Occupancy = 4,
                   Rate = 300,
                   Sqft = 550,
@@ -50,7 +51,7 @@ namespace MagicVilla_VillaAPI.DATA
                   Id = 3,
                   Name = "Luxury Pool Villa",
                   Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                  ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa4.jpg",
+                  ImageUrl = "https://dotnetmastery.com/bluevillaimages/villa4.jpg",
                   Occupancy = 4,
                   Rate = 400,
                   Sqft = 750,
@@ -62,7 +63,7 @@ namespace MagicVilla_VillaAPI.DATA
                   Id = 4,
                   Name = "Diamond Villa",
                   Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                  ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa5.jpg",
+                  ImageUrl = "https://dotnetmastery/bluevillaimages/villa5.jpg",
                   Occupancy = 4,
                   Rate = 550,
                   Sqft = 900,
@@ -74,7 +75,7 @@ namespace MagicVilla_VillaAPI.DATA
                   Id = 5,
                   Name = "Diamond Pool Villa",
                   Details = "Fusce 11 tincidunt maximus leo, sed scelerisque massa auctor sit amet. Donec ex mauris, hendrerit quis nibh ac, efficitur fringilla enim.",
-                  ImageUrl = "https://dotnetmasteryimages.blob.core.windows.net/bluevillaimages/villa2.jpg",
+                  ImageUrl = "https://dotnetmastery/bluevillaimages/villa6.jpg",
                   Occupancy = 4,
                   Rate = 600,
                   Sqft = 1100,
@@ -104,6 +105,30 @@ namespace MagicVilla_VillaAPI.DATA
                     CreateDate = DateTime.Now
                 }
 
+            );
+
+            modelBuilder.Entity<Customer>().HasData(
+                new Customer
+                {
+                    Id = 1,
+                    Name = "Jacopo",
+                    Surname = "Grazioli",
+                    Age = 31
+                },
+                new Customer
+                {
+                    Id = 2,
+                    Name = "Paolo",
+                    Surname = "Rossi",
+                    Age = 35
+                },
+                new Customer
+                {
+                    Id = 3,
+                    Name = "Franco",
+                    Surname = "Bianchi",
+                    Age = 23
+                }
             );
 
         }

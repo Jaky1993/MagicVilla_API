@@ -27,6 +27,7 @@ namespace MagicVilla_Web.services
             this.httpClient = httpClient;
         }
 
+        //It looks like you're creating a method to send an HTTP request and deserialize the response into a specific type T
         public async Task<T> SendAsync<T>(APIRequest apiRequest)
         {
             try
@@ -65,9 +66,14 @@ namespace MagicVilla_Web.services
 
                 HttpResponseMessage apiResponse = null;
 
+                /*
+                    HttpClient.SendAsync is a method in C# used to send HTTP requests and receive HTTP responses asynchronously 
+                */
                 apiResponse = await client.SendAsync(message);
 
+                //Reading the response content as a string
                 var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                //deserialize the content in object of type T, T is APIResponse
                 var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
                 return APIResponse;
             }
