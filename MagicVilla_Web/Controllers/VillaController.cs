@@ -75,9 +75,13 @@ namespace MagicVilla_Web.Controllers
 
                 if (response != null && response.IsSucces)
                 {
+                    TempData["success"] = "Villa created succesfully";
+
                     return RedirectToAction(nameof(IndexVilla));
                 }
             }
+
+            TempData["error"] = "Error encountered.";
 
             return View(model);
         }
@@ -108,9 +112,12 @@ namespace MagicVilla_Web.Controllers
 
                 if (response != null && response.IsSucces)
                 {
+                    TempData["success"] = "Villa update succesfully";
                     return RedirectToAction(nameof(IndexVilla));
                 }
             }
+
+            TempData["error"] = "Error encountered.";
 
             return View(model);
         }
@@ -137,8 +144,12 @@ namespace MagicVilla_Web.Controllers
 
             if (response != null && response.IsSucces)
             {
+                TempData["success"] = "Villa delete succesfully";
+
                 return RedirectToAction(nameof(IndexVilla));
             }
+
+            TempData["error"] = "Error encountered.";
 
             return View(model);
         }

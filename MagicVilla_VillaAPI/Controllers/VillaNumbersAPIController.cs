@@ -48,7 +48,7 @@ namespace MagicVilla_VillaAPI.Controllers
             return _response;
         }
 
-        [HttpGet("id:int", Name = "GetVillaNumber")]
+        [HttpGet("villaNo:int", Name = "GetVillaNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -64,7 +64,11 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 var villaNumber = await _dbVillaNumber.GetAsync(V => V.VillaNo == villaNo);
 
-                return Ok(villaNumber);
+                _response.Result = _mapper.Map<VillaNumberDTO>(villaNumber);
+                _response.IsSucces = true;
+                _response.StatusCode = HttpStatusCode.OK;
+
+                return Ok(_response);
             }
             catch (Exception ex)
             {
@@ -95,13 +99,13 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 if (await _dbVillaNumber.GetAsync(v => v.VillaNo == villaNumberCreateDTO.VillaNo) != null)
                 {
-                    ModelState.AddModelError("CustomError", "VillaNumber already exists!");
+                    ModelState.AddModelError("ErrorMessage", "VillaNumber already exists!");
                     return BadRequest(ModelState);
                 }
 
                 if(await _dbVilla.GetAsync(v => v.Id==villaNumberCreateDTO.VillaID) == null)
                 {
-                    ModelState.AddModelError("CustomError", "VillaID is invalid");
+                    ModelState.AddModelError("ErrorMessage", "VillaID is invalid");
                     return BadRequest(ModelState);
                 }
 
@@ -131,7 +135,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpDelete("id:int", Name = "DeleteVillaNumber")]
+        [HttpDelete("villaNo:int", Name = "DeleteVillaNumber")]
         public async Task<ActionResult<APIResponse>> DeleteVillaNumber(int villaNo)
         {
             try
@@ -163,7 +167,7 @@ namespace MagicVilla_VillaAPI.Controllers
             return _response;
         }
 
-        [HttpPut("id:int", Name = "UpdateVillaNumber")]
+        [HttpPut("villaNo:int", Name = "UpdateVillaNumber")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> UpdateVilla(int villaNo, [FromBody] VillaNumberUpdateDTO villaNumberUpdateDTO)
         {
@@ -176,7 +180,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 if (await _dbVilla.GetAsync(v => v.Id == villaNumberUpdateDTO.VillaID) == null)
                 {
-                    ModelState.AddModelError("CustomError", "VillaID is invalid");
+                    ModelState.AddModelError("ErrorMessage", "VillaID is invalid");
                     return BadRequest(ModelState);
                 }
 
@@ -197,7 +201,7 @@ namespace MagicVilla_VillaAPI.Controllers
             return _response;
         }
 
-        [HttpPatch("id:int", Name = "UpdateVillaNumberPartial")]
+        [HttpPatch("villaNo:int", Name = "UpdateVillaNumberPartial")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> UpdateVillaPartial(int villaNo, JsonPatchDocument<VillaNumberUpdateDTO> villaNumberPatchDTO)
