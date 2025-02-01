@@ -16,7 +16,7 @@ namespace MagicVilla_VillaAPI.DATA
             optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
         public DbSet<Villa> Villas { get; set; } //Villas: Name of tabel in database
-        public DbSet<VillaNumber > VillaNumbers { get; set; }
+        public DbSet<VillaNumber> VillaNumbers { get; set; }
         public DbSet<LocalUser> LocalUser { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
