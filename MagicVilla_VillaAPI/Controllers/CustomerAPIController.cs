@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using Azure;
 using MagicVilla_VillaAPI.Models;
-using MagicVilla_VillaAPI.Repository;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using System.Net.NetworkInformation;
 using System;
 using MagicVilla_VillaAPI.Models.DTO;
 using System.Net;
+using MagicVilla_VillaAPI.Repository.IRepository;
 
 namespace MagicVilla_VillaAPI.Controllers
 {

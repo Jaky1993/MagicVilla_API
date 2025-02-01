@@ -17,6 +17,7 @@ namespace MagicVilla_VillaAPI.DATA
         }
         public DbSet<Villa> Villas { get; set; } //Villas: Name of tabel in database
         public DbSet<VillaNumber > VillaNumbers { get; set; }
+        public DbSet<LocalUser> LocalUser { get; set; }
         public DbSet<Customer> Customers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
