@@ -11,7 +11,10 @@ using System;
 using System.Collections.Generic;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Reflection.PortableExecutable;
+<<<<<<< HEAD
 using Microsoft.AspNetCore.Authorization;
+=======
+>>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
 
 namespace MagicVilla_Web.Controllers
 {
@@ -45,8 +48,11 @@ namespace MagicVilla_Web.Controllers
             }
             return View(list);
         }
+<<<<<<< HEAD
 
         [Authorize(Roles = "admin")]
+=======
+>>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
         public async Task<IActionResult> CreateVilla()
         {
             return View();
@@ -70,7 +76,10 @@ namespace MagicVilla_Web.Controllers
         IActionResult is an interface that defines a contract for the result of an action method.
         It allows for the return of any specific result types that implement the IActionResult interface, providing maximum flexibility
         */
+<<<<<<< HEAD
         [Authorize(Roles = "admin")]
+=======
+>>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
         public async Task<IActionResult> CreateVilla(VillaCreateDTO model)
         {
             if (ModelState.IsValid)

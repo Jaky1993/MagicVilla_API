@@ -75,6 +75,7 @@ namespace MagicVilla_Web.services
                 /*
                     HttpClient.SendAsync is a method in C# used to send HTTP requests and receive HTTP responses asynchronously 
                 */
+<<<<<<< HEAD
                 //La richiesta viene inviata utilizzando SendAsync e la risposta viene letta come stringa.
                 apiResponse = await client.SendAsync(message);
 
@@ -120,6 +121,15 @@ namespace MagicVilla_Web.services
                 //deserializzare l'oggetto due volte può sembrare inefficiente
                 var apiResponseContent = JsonConvert.DeserializeObject<T>(apiContent);
                 return apiResponseContent;
+=======
+                apiResponse = await client.SendAsync(message);
+
+                //Reading the response content as a string
+                var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                //deserialize the content in object of type T
+                var APIResponse = JsonConvert.DeserializeObject<T>(apiContent);
+                return APIResponse;
+>>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
             }
             catch (Exception ex)
             {
