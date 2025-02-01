@@ -82,11 +82,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)] //ritorna un villa model vuoto
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-<<<<<<< HEAD
         [HttpPost]
-=======
-        [HttpPost("CreateVillaNumber")]
->>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
 
         //API Endpoint that return APIResponse
         public async Task<ActionResult<APIResponse>> CreateVillaNumber([FromBody] VillaNumberCreateDTO villaNumberCreateDTO)

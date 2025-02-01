@@ -1,10 +1,5 @@
 ﻿using MagicVilla_VillaAPI.DATA;
 using MagicVilla_VillaAPI.Models;
-<<<<<<< HEAD
-using MagicVilla_VillaAPI.Repository.IRepository;
-=======
->>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -22,11 +17,7 @@ namespace MagicVilla_VillaAPI.Repository
         public Repository(ApplicationDbContext db)
         {
             _db = db;
-            //Create DbSet Entity can be used to query and save instance of T
-<<<<<<< HEAD
-            //_db.VillaNumbers.Include(U => U.Villa).ToList();
-=======
->>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
+            //_db.VillaNumbers.Include(u => u.villa).ToList();
             this.dbSet = _db.Set<T>();
         }
 
@@ -36,11 +27,6 @@ namespace MagicVilla_VillaAPI.Repository
             await SaveAsync();
         }
 
-<<<<<<< HEAD
-        //"Villa,VillaSpecial"
-=======
->>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
-        //The Func delegate represent methods that return a value in this case bool and take from zero to sixteen parameters -> Func<T, bool>
         public async Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true, string? includeProperties = null)
         {
             //IQueryable<T> is a powerful interface in C# that provides functionality for querying data from a variety of data sources.
@@ -72,14 +58,7 @@ namespace MagicVilla_VillaAPI.Repository
                     query = query.Include(includeProp);
                 }
             }
-
-<<<<<<< HEAD
-            T entity = await query.FirstOrDefaultAsync();
-
-            return entity;
-=======
             return await query.FirstOrDefaultAsync();
->>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
         }        
 
         //l'output del filtro sarà un boolean
