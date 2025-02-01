@@ -4,10 +4,7 @@ using MagicVilla_Web.Models.DTO;
 using MagicVilla_Web.Models.VM;
 using MagicVilla_Web.services;
 using MagicVilla_Web.services.IServices;
-<<<<<<< HEAD
 using Microsoft.AspNetCore.Authorization;
-=======
->>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,13 +19,7 @@ namespace MagicVilla_Web.Controllers
         private readonly IVillaNumberService _villaNumberService;
         private readonly IVillaService _villaService;
         private readonly IMapper _mapper;
-
-        //you configure the DI container in Program.cs in .NET 6 and later
-<<<<<<< HEAD
-        public VillaNumberController(IVillaNumberService villaNumberService, IVillaService villaService, IMapper mapper)
-=======
-        public VillaNumberController(IVillaNumberService villaNumberService, IMapper mapper)
->>>>>>> 7689999e30145d80d87c15992fc20bf1b33af788
+        public VillaNumberController(IVillaNumberService villaNumberService, IMapper mapper, IVillaService villaService)
         {
             _villaNumberService = villaNumberService;
             _villaService = villaService;

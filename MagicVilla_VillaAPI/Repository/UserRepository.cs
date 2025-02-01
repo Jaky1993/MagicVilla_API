@@ -43,7 +43,11 @@ namespace MagicVilla_VillaAPI.Repository
 
             if (user == null)
             {
-                return null;
+                return new LoginResponseDTO()
+                {
+                    Token = "",
+                    User = null
+                };
             }
 
             //if user was found generate JWT token -> quando abbiamo generato un token JWT abbiamo bisongo di una chiave segreta
