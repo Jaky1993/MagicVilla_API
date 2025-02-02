@@ -32,17 +32,23 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddHttpClient<IAuthService, AuthService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddDistributedMemoryCache();
+
+
+//Questa riga aggiunge i servizi di autenticazione all'applicazione e specifica che lo schema di autenticazione
+//predefinito sarà basato sui cookie 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>
         {
             options.Cookie.HttpOnly = true;
             options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+            //In questo esempio, stiamo configurando l'autenticazione tramite cookie e impostando la proprietà LoginPath
+            //per specificare l'URL a cui gli utenti devono essere reindirizzati quando è necessario effettuare il login
             options.LoginPath = "/Auth/Login";
             options.AccessDeniedPath = "/Auth/AccessDenied";
             options.SlidingExpiration = true;
         });
 
-//Add session
+//Questa riga aggiunge il servizio di sessione all'applicazione e configura le opzioni della sessione
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(10);
@@ -68,8 +74,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
 //Aggiungio la session all'applicazione
 app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}")

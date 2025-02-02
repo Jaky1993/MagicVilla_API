@@ -11,8 +11,11 @@ using System.Net;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
-    [Route("api/VillaNumbersAPI")]
+    [Route("api/v{version:apiVersion}VillaNumbersAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
+    [ApiVersion("2.0")]
+    //[ApiVersion("2.0")] -> ritorna errore perché in program.cs ho messo di default la versione 1.0
     public class VillaNumbersAPIController : ControllerBase
     {
         protected APIResponse _response;
@@ -30,6 +33,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
+        [MapToApiVersion("1.0")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<APIResponse>> GetVillaNumbers()
         {
@@ -48,6 +52,13 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             return _response;
+        }
+
+        [MapToApiVersion("2.0")]
+        [HttpGet]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "value1", "value2" };
         }
 
         [Authorize(Roles = "Admin")]

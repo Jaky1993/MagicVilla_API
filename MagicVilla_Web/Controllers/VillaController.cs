@@ -27,6 +27,7 @@ namespace MagicVilla_Web.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> IndexVilla()
         {
             List<VillaDTO> list = new();
@@ -35,15 +36,14 @@ namespace MagicVilla_Web.Controllers
 
             if (response != null && response.IsSucces)
             {
-                /*
-                    object obj = new SomeClass(); 
-                    string str = obj.ToString();
-
-                    convert object to String in c#
-                */
-
                 list = JsonConvert.DeserializeObject<List<VillaDTO>>(Convert.ToString(response.Result));
             }
+
+            if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             return View(list);
         }
 

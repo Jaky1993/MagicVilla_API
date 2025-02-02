@@ -73,7 +73,9 @@ namespace MagicVilla_Web.services
                 //Prima di tutto, viene creato un'istanza di HttpRequestMessage e configurato per eseguire una richiesta HTTP.
                 HttpResponseMessage apiResponse = null;
 
-                if(!string.IsNullOrEmpty(apiRequest.Token))
+                //Con questa configurazione, il client HTTP aggiungerà il token di autorizzazione alle richieste HTTP,
+                //consentendo l'accesso alle risorse protette
+                if (!string.IsNullOrEmpty(apiRequest.Token))
                 {
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
                 }
@@ -94,6 +96,19 @@ namespace MagicVilla_Web.services
                 {
                     //Se si verifica un'eccezione durante la deserializzazione (JsonConvert.DeserializeObject<APIResponse>(apiContent))
                     APIResponse response = JsonConvert.DeserializeObject<APIResponse>(apiContent);
+
+                    if (response == null && apiResponse.StatusCode == HttpStatusCode.Unauthorized)
+                    {
+                        response = new APIResponse();
+
+                        response.StatusCode = HttpStatusCode.Unauthorized;
+                        response.IsSucces = false;
+
+                        var jsonResponse = JsonConvert.SerializeObject(response);
+                        var returnObj = JsonConvert.DeserializeObject<T>(jsonResponse);
+
+                        return returnObj;
+                    }
 
                     //Se si verificano eventuali errori in apiResponse (BadRequest e NotFound)
                     if (apiResponse.StatusCode == HttpStatusCode.BadRequest || apiResponse.StatusCode == HttpStatusCode.NotFound)

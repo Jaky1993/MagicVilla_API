@@ -22,7 +22,6 @@ namespace MagicVilla_Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             List<VillaDTO> list = new();
