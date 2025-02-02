@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Newtonsoft.Json;
 using System.Net;
+using System.Net.Http.Headers;
 using System.Security.AccessControl;
 using System.Security.Cryptography.Xml;
 using System.Text;
@@ -71,6 +72,11 @@ namespace MagicVilla_Web.services
 
                 //Prima di tutto, viene creato un'istanza di HttpRequestMessage e configurato per eseguire una richiesta HTTP.
                 HttpResponseMessage apiResponse = null;
+
+                if(!string.IsNullOrEmpty(apiRequest.Token))
+                {
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", apiRequest.Token);
+                }
 
                 /*
                     HttpClient.SendAsync is a method in C# used to send HTTP requests and receive HTTP responses asynchronously 
