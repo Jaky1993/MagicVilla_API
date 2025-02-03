@@ -57,6 +57,11 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.Services.AddRouting(options =>
+{
+    options.ConstraintMap.Add("apiVersion", typeof(ApiVersionRouteConstraint));
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
