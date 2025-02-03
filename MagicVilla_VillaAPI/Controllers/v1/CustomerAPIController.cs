@@ -11,8 +11,9 @@ using MagicVilla_VillaAPI.Repository.IRepository;
 
 namespace MagicVilla_VillaAPI.Controllers.v1
 {
-    [Route("api/Customer")]
+    [Route("api/v{version:apiVersion}/Customer")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class CustomerAPIController : ControllerBase
     {
         protected APIResponse _response;

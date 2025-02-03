@@ -27,7 +27,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
-
+builder.Services.AddResponseCaching();
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
@@ -123,7 +123,12 @@ builder.Services.AddAuthentication(x =>
 
 builder.Services.AddControllers(option =>
 {
-    option.ReturnHttpNotAcceptable  = true;
+option.ReturnHttpNotAcceptable = true;
+option.CacheProfiles.Add("Default30",
+                new CacheProfile()
+                {
+                    Duration = 30
+                });
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddSwaggerGen(options =>
@@ -223,6 +228,7 @@ builder.Services.AddSingleton<ILogging, Logging>(); //è l'ambito che fondmentalm
 //AddTransient: Ogni volta che si acede a quell'oggetto, anche in una sola richiesta, se si accede a quell'oggetto 10 volte si creeranno 10 oggetti diversi di quell'oggetto e lo si assegnerà
 //dove serve
 //Questo ci permette di cambiare implementazione cambiando la classe solo in un punto -> Dependency injection
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

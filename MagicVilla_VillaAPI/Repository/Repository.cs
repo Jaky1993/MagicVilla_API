@@ -51,6 +51,7 @@ namespace MagicVilla_VillaAPI.Repository
             Splits the comma-separated string into an array of property names, ignoring empty entries
             query = query.Include(includeProp): Includes the specified property in the query
             */
+
             if (includeProperties != null)
             {
                 //RemoveEmptyEntries -> Remove array element that contain empty string from the result
@@ -63,7 +64,7 @@ namespace MagicVilla_VillaAPI.Repository
         }        
 
         //l'output del filtro sarà un boolean
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, int pageSize = 2, int pageNumber = 1)
         {
             /*
             IQueryable<T> is an interface in C# that represents a queryable data source,
@@ -77,6 +78,28 @@ namespace MagicVilla_VillaAPI.Repository
             if (filter != null)
             {
                 query = query.Where(filter);
+            }
+
+            if (pageSize > 0)
+            {
+                if (pageSize > 100)
+                {
+                    pageSize = 100;
+                }
+
+                //pageSize è il numero di record che vuoi mostrare su ogni pagina
+                //pageNumber è il numero di pagina corrente.
+                //Skip(pageSize * (pageNumber - 1)) salta i record in base al numero di pagina
+                //Take(pageSize) limita il set di risultati alla dimensione della pagina
+
+                //pageSize = 5
+                //pageNumber = 1
+                //5*(1-1).Take(5) -> Skip(0) salta 0 record and Take 5 records
+
+                //pageSize = 5
+                //pageNumber = 2
+                //5*(2-1).Take(5) -> Skip(5) salta 5 records and Take 5 records
+                query = query.Skip(pageSize * (pageNumber - 1)).Take(pageSize);
             }
 
             /*

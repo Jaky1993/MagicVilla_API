@@ -2,6 +2,7 @@ using MagicVilla_Web;
 using MagicVilla_Web.services;
 using MagicVilla_Web.services.IServices;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 var builder = WebApplication.CreateBuilder(args);
 
