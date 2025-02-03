@@ -5,6 +5,7 @@ using MagicVilla_VillaAPI.Repository;
 using MagicVilla_VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -32,16 +33,44 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVillaNumberRepository, VillaNumberRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+
 builder.Services.AddApiVersioning(options =>
 {
+    //Questa opzione dice all'applicazione di utilizzare la versione predefinita specificata quando un client
+    //non fornisce una versione nella loro richiesta
     options.AssumeDefaultVersionWhenUnspecified = true;
-    //Default version
-    options.DefaultApiVersion = new ApiVersion(1,0);
+
+    //Questa imposta la versione predefinita dell'API a 1.0
+    /*
+    Versione principale 1: Questo indica la prima versione significativa dell'API. La versione principale
+    cambia solitamente per riflettere modifiche importanti o non retrocompatibili.
+    Versione secondaria 0: Questo indica una versione secondaria, o "minor", che di solito riflette
+    piccoli miglioramenti o correzioni di bug che sono retrocompatibili con la versione principale.
+    */
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+
+    /*
+    L'opzione options.ReportApiVersions = true; nel contesto di API versioning in ASP.NET Core fa sì che l'applicazione
+    includa informazioni sulle versioni API supportate e deprecate negli header delle risposte HTTP.
+    Questo è utile per i client che desiderano sapere quali versioni dell'API sono disponibili o sono state deprecate
+    */
+    options.ReportApiVersions = true;
 });
+
+//VersionedApiExplorer :definisce un formato per i nomi dei gruppi delle versioni API
 builder.Services.AddVersionedApiExplorer(
     options =>
     {
+        //Questa opzione specifica il formato per i nomi dei gruppi delle versioni API.
+        //Nell'esempio che hai fornito, "'v'VVV" significa che i gruppi di versioni saranno prefissi con la lettera "v"
+        //seguita dai numeri di versione.
+        //Ad esempio, una versione 1.0 sarà rappresentata come "v1"
+        //Pertanto, VVV permette di rappresentare numeri di versione fino a tre cifre.
+        //Ad esempio, una versione 1.0 sarà rappresentata come v001, e una versione 12.0 sarà rappresentata come v012
         options.GroupNameFormat = "'v'VVV";
+
+        //Imposta di default la versione 1
+        options.SubstituteApiVersionInUrl = true;
     });
 
 var key = builder.Configuration.GetValue<string>("ApiSettings:Secret");
@@ -150,6 +179,43 @@ builder.Services.AddSwaggerGen(options =>
             new List<string>()
         }
     });
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        //basic documentation for swagger UI
+        Version = "v1.0",
+        Title = "Magic Villa V1",
+        Description = "API to manage Villa",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "DotNetMastery",
+            Url = new Uri("https://dotnetmastery.com")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Example license",
+            Url = new Uri("https://dotnetmastery.com/license")
+        }
+    });
+
+    options.SwaggerDoc("v2", new OpenApiInfo
+    {
+        //basic documentation for swagger UI
+        Version = "v2.0",
+        Title = "Magic Villa V2",
+        Description = "API to manage Villa",
+        TermsOfService = new Uri("https://example.com/terms"),
+        Contact = new OpenApiContact
+        {
+            Name = "DotNetMastery",
+            Url = new Uri("https://dotnetmastery.com")
+        },
+        License = new OpenApiLicense
+        {
+            Name = "Example license",
+            Url = new Uri("https://dotnetmastery.com/license")
+        }
+    });
 });
 
 builder.Services.AddSingleton<ILogging, Logging>(); //è l'ambito che fondmentalmente per ogni richiesta crea un nuovo oggetto e lo fornirà dove richiesto
@@ -163,7 +229,12 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(options =>
+    {
+        //default endpoint
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Magic_VillaV1");
+        options.SwaggerEndpoint("/swagger/v2/swagger.json", "Magic_VillaV2");
+    });
 }
 
 app.UseHttpsRedirection();

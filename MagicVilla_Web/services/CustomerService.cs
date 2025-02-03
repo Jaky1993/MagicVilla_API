@@ -22,7 +22,7 @@ namespace MagicVilla_Web.services
             
             apiRequest.ApiType = SD.ApiType.POST;
             apiRequest.Data = customerCreateDTO;
-            apiRequest.Url = customerUrl + "/api/Customer";
+            apiRequest.Url = customerUrl + "/api/v1/Customer";
 
             //CreateAsync<T> method is returning the result of calling another asynchronous method, SendAsync<T>
 
@@ -34,7 +34,7 @@ namespace MagicVilla_Web.services
             APIRequest apiRequest = new APIRequest();
 
             apiRequest.ApiType = SD.ApiType.DELETE;
-            apiRequest.Url = customerUrl + "/api/Customer" + customerId;
+            apiRequest.Url = customerUrl + "/api/v1/Customer" + customerId;
 
             return SendAsync<T>(apiRequest);
         }
@@ -44,7 +44,7 @@ namespace MagicVilla_Web.services
             APIRequest apiRequest = new APIRequest();
 
             apiRequest.ApiType = SD.ApiType.GET;
-            apiRequest.Url = customerUrl + "/api/Customer";
+            apiRequest.Url = customerUrl + "/api/v1/Customer";
 
             return SendAsync<T>(apiRequest);
         }
@@ -54,7 +54,7 @@ namespace MagicVilla_Web.services
             APIRequest apiRequest = new APIRequest();
 
             apiRequest.ApiType = SD.ApiType.GET;
-            apiRequest.Url = customerUrl + "/api/Customer" + customerId;
+            apiRequest.Url = customerUrl + "/api/v1/Customer" + customerId;
 
             return SendAsync<T>(apiRequest);
         }
@@ -65,7 +65,7 @@ namespace MagicVilla_Web.services
 
             apiRequest.ApiType = SD.ApiType.PUT;
             apiRequest.Data = customerUpdateDTO;
-            apiRequest.Url = customerUrl + "/api/Customer";
+            apiRequest.Url = customerUrl + "/api/v1/Customer";
 
             return SendAsync<T>(apiRequest);
         }

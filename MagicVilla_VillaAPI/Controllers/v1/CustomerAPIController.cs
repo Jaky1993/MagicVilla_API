@@ -9,7 +9,7 @@ using MagicVilla_VillaAPI.Models.DTO;
 using System.Net;
 using MagicVilla_VillaAPI.Repository.IRepository;
 
-namespace MagicVilla_VillaAPI.Controllers
+namespace MagicVilla_VillaAPI.Controllers.v1
 {
     [Route("api/Customer")]
     [ApiController]
@@ -21,9 +21,9 @@ namespace MagicVilla_VillaAPI.Controllers
 
         public CustomerAPIController(ICustomerRepository customerRepository, IMapper mapper)
         {
-            this._customerRepository = customerRepository;
-            this._mapper = mapper;
-            this._response = new();
+            _customerRepository = customerRepository;
+            _mapper = mapper;
+            _response = new();
         }
 
         [HttpGet]
@@ -98,7 +98,7 @@ namespace MagicVilla_VillaAPI.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status406NotAcceptable)]
-        public async Task<ActionResult<APIResponse>> CreateCustomer([FromBody]CustomerCreateDTO customerCreateDTO)
+        public async Task<ActionResult<APIResponse>> CreateCustomer([FromBody] CustomerCreateDTO customerCreateDTO)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace MagicVilla_VillaAPI.Controllers
                         Performs validation: It runs any validation attributes you've applied to your model properties
                         and stores the results.
                     */
-                    ModelState.AddModelError("CustomCustomerError1","Customer already exists");
+                    ModelState.AddModelError("CustomCustomerError1", "Customer already exists");
                     return BadRequest(ModelState);
                 }
 
@@ -172,7 +172,7 @@ namespace MagicVilla_VillaAPI.Controllers
         }
 
         [HttpPut("customerId:int", Name = "UpdateCustomer")]
-        public async Task<ActionResult<APIResponse>> UpdateCustomer(int customerId, [FromBody]CustomerUpdateDTO customerUpdateDTO)
+        public async Task<ActionResult<APIResponse>> UpdateCustomer(int customerId, [FromBody] CustomerUpdateDTO customerUpdateDTO)
         {
             try
             {

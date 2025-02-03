@@ -111,7 +111,7 @@ namespace MagicVilla_Web.services
                     }
 
                     //Se si verificano eventuali errori in apiResponse (BadRequest e NotFound)
-                    if (apiResponse.StatusCode == HttpStatusCode.BadRequest || apiResponse.StatusCode == HttpStatusCode.NotFound)
+                    if (response != null && (apiResponse.StatusCode == HttpStatusCode.BadRequest || apiResponse.StatusCode == HttpStatusCode.NotFound))
                     {
                         response.StatusCode = HttpStatusCode.BadRequest;
                         response.IsSucces = false;

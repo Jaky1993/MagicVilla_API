@@ -6,8 +6,16 @@ using System.Runtime.InteropServices;
 
 namespace MagicVilla_VillaAPI.Controllers
 {
-    [Route("api/UsersAuth")]
+    [Route("api/v{version:apiVersion}/UsersAuth")]
     [ApiController]
+    [ApiVersionNeutral]
+    /*
+    L'attributo [ApiVersionNeutral] in ASP.NET Core viene utilizzato per indicare che un controller o una
+    specifica azione non è associato a una versione specifica dell'API. In altre parole, il controller o
+    l'azione marcata con questo attributo è "neutrale" rispetto alla versione e sarà accessibile
+    indipendentemente dalla versione dell'API richiesta
+    */
+
     public class UsersController : Controller
     {
         private readonly IUserRepository _userRepository;
@@ -16,7 +24,7 @@ namespace MagicVilla_VillaAPI.Controllers
         public UsersController(IUserRepository userRepository)
         {
             _userRepository = userRepository;
-            this._response = new();
+            _response = new();
         }
 
 

@@ -9,13 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq.Expressions;
 using System.Net;
 
-namespace MagicVilla_VillaAPI.Controllers
+namespace MagicVilla_VillaAPI.Controllers.v1
 {
-    [Route("api/v{version:apiVersion}VillaNumbersAPI")]
+    [Route("api/v{version:apiVersion}/VillaNumbersAPI")]
     [ApiController]
     [ApiVersion("1.0")]
-    [ApiVersion("2.0")]
-    //[ApiVersion("2.0")] -> ritorna errore perché in program.cs ho messo di default la versione 1.0
     public class VillaNumbersAPIController : ControllerBase
     {
         protected APIResponse _response;
@@ -28,7 +26,14 @@ namespace MagicVilla_VillaAPI.Controllers
             _mapper = mapper;
             _dbVillaNumber = dbVillaNumber;
             _dbVilla = dbVilla;
-            this._response = new();
+            _response = new();
+        }
+
+        //Per distringuere i metodi GET-> Get() e GetVillaNumbers() metto [HttpGet("GetString")]
+        [HttpGet("GetString")]
+        public IEnumerable<string> Get()
+        {
+            return new string[] { "String1", "String2" };
         }
 
         [Authorize(Roles = "Admin")]
@@ -52,13 +57,6 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             return _response;
-        }
-
-        [MapToApiVersion("2.0")]
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
         }
 
         [Authorize(Roles = "Admin")]
@@ -118,7 +116,7 @@ namespace MagicVilla_VillaAPI.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if(await _dbVilla.GetAsync(v => v.Id==villaNumberCreateDTO.VillaID) == null)
+                if (await _dbVilla.GetAsync(v => v.Id == villaNumberCreateDTO.VillaID) == null)
                 {
                     ModelState.AddModelError("ErrorMessage", "VillaID is invalid");
                     return BadRequest(ModelState);
