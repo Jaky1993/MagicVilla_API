@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 
 namespace MagicVilla_Web.Controllers
@@ -37,6 +38,9 @@ namespace MagicVilla_Web.Controllers
             {
                 LoginResponseDTO model = JsonConvert.DeserializeObject<LoginResponseDTO>(Convert.ToString(response.Result));
 
+                var handler = new JwtSecurityTokenHandler();
+                var jwt = handler.ReadJwtToken(model.Token);
+
                 //crea un'istanza di ClaimsIdentity utilizzando lo schema di autenticazione basato sui cookie
                 /*
                 La classe ClaimsIdentity in .NET rappresenta un'entità utente (come un utente autenticato) e i
@@ -44,8 +48,9 @@ namespace MagicVilla_Web.Controllers
                 il ruolo, l'età, ecc., che possono essere utilizzati per prendere decisioni di autorizzazione e autenticazione
                 */
                 var identity = new ClaimsIdentity(CookieAuthenticationDefaults.AuthenticationScheme);
-                identity.AddClaim(new Claim(ClaimTypes.Name, model.User.UserName));
-                identity.AddClaim(new Claim(ClaimTypes.Role, model.User.Role));
+
+                identity.AddClaim(new Claim(ClaimTypes.Name, jwt.Claims.FirstOrDefault(u => u.Type == "unique_name").Value));
+                identity.AddClaim(new Claim(ClaimTypes.Role, jwt.Claims.FirstOrDefault(u => u.Type == "role").Value));
 
                 /*
                 La riga var principal = new ClaimsPrincipal(identity); crea un'istanza di ClaimsPrincipal utilizzando

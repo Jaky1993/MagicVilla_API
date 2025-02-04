@@ -31,7 +31,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             _response = new();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet]
         //Per 30 secondi tiene la richiesta che abbiamo fatto senza ripassare dall'API
         //[ResponseCache(Duration = 30)]
@@ -78,7 +78,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             return _response;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("id:int", Name = "GetVilla")]
         //Anche in questo caso memorizza la chiamata per 30 secondi e se cambio l'id fa una nuova chiamata
         //Con Location = ResponseCacheLocation.None, NoStore = true -> ogni volta andrà a recuperare i dati dal database
@@ -122,7 +122,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             return _response;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)] //ritorna un villa model vuoto
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -163,7 +163,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             return _response;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -201,7 +201,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             return _response;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut("id:int", Name = "UpdateVilla")]
         public async Task<ActionResult<APIResponse>> UpdateVilla(int id, [FromBody] VillaUpdateDTO updateDTO)
         {
@@ -229,7 +229,7 @@ namespace MagicVilla_VillaAPI.Controllers.v1
             return _response;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "admin")]
         [HttpPatch("{id:int}", Name = "UpdateVillaPartial")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

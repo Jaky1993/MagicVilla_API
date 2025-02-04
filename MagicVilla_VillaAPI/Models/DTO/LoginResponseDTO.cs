@@ -7,6 +7,5 @@
 
         //Utilizzato per autenticare e convalidare l'identità dell'utente
         public string Token { get; set; }
-        public string Role  { get; set; }
     }
 }

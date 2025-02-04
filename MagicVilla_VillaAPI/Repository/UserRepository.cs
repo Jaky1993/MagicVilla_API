@@ -19,13 +19,15 @@ namespace MagicVilla_VillaAPI.Repository
     {
         private readonly ApplicationDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private string secretKey;
         private readonly IMapper _mapper;
 
-        public UserRepository(ApplicationDbContext db, IConfiguration configuration, UserManager<ApplicationUser> userManager, IMapper mapper)
+        public UserRepository(ApplicationDbContext db, IConfiguration configuration, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IMapper mapper)
         {
             _db = db;
             _userManager = userManager;
+            _roleManager = roleManager;
             secretKey = configuration.GetValue<string>("ApiSettings:Secret");
             _mapper = mapper;
         }
@@ -82,7 +84,7 @@ namespace MagicVilla_VillaAPI.Repository
             */
             tokenDescriptor.Subject = new ClaimsIdentity(new Claim[]
             {
-                new Claim(ClaimTypes.Name, user.Id.ToString()),
+                new Claim(ClaimTypes.Name, user.UserName.ToString()),
                 new Claim(ClaimTypes.Role, roles.FirstOrDefault())
             });
 
@@ -120,7 +122,6 @@ namespace MagicVilla_VillaAPI.Repository
             //La stringa rappresenta il token JWT in formato leggibile(ad esempio, una lunga stringa di caratteri).
             loginResponseDTO.Token = tokenHandler.WriteToken(token);
             loginResponseDTO.User = _mapper.Map<UserDTO>(user);
-            loginResponseDTO.Role = roles.FirstOrDefault();
 
             return loginResponseDTO;
         }
@@ -140,6 +141,13 @@ namespace MagicVilla_VillaAPI.Repository
 
                 if (result.Succeeded)
                 {
+                    if (!_roleManager.RoleExistsAsync("admin").GetAwaiter().GetResult())
+                    {
+                        //JWT.IO per vedere il token
+                        await _roleManager.CreateAsync(new IdentityRole("admin"));
+                        await _roleManager.CreateAsync(new IdentityRole("customer"));
+                    }
+
                     await _userManager.AddToRoleAsync(user, "admin");
 
                     var userToReturn = _db.ApplicationUsers.FirstOrDefault(u => u.UserName == registrationRequestDTO.UserName);

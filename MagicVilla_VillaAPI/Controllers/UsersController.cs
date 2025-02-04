@@ -62,7 +62,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 return BadRequest(_response);
             }
 
-            var user = _userRepository.Register(model);
+            var user = await _userRepository.Register(model);
 
             if (user == null)
             {
