@@ -1,10 +1,16 @@
 ﻿using MagicVilla_VillaAPI.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace MagicVilla_VillaAPI.DATA
 {
-    public class ApplicationDbContext : DbContext
+    //IdentityDbContext<ApplicationUser>, che è una classe di contesto specifica per l'utilizzo con ASP.NET Core Identity.
+    //Definisce un contesto Entity Framework Core che viene utilizzato per comunicare con il database per gestire
+    //le informazioni sugli utenti e sui ruoli
+    //le chiavi primarie sono mappate nella creazione del metodo base di OnModelCreating di IdentityDbContext, se il metodo non viene chiamato si
+    //otterrà un messaggio di errore
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -15,6 +21,8 @@ namespace MagicVilla_VillaAPI.DATA
         {
             optionsBuilder.ConfigureWarnings(warnings => warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
         }
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Villa> Villas { get; set; } //Villas: Name of tabel in database
         public DbSet<VillaNumber> VillaNumbers { get; set; }
         public DbSet<LocalUser> LocalUser { get; set; }
@@ -22,6 +30,9 @@ namespace MagicVilla_VillaAPI.DATA
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //chiamo il metodo base per mappare le chiavi primarie di IdentityUser
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {

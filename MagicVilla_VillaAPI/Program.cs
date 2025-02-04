@@ -1,9 +1,11 @@
 using MagicVilla_VillaAPI;
 using MagicVilla_VillaAPI.DATA;
 using MagicVilla_VillaAPI.Logging;
+using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Repository;
 using MagicVilla_VillaAPI.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +29,15 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
+/*
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(): Questo aggiunge il sistema di Identità all'applicazione,
+specificando IdentityUser per il tipo di utente e IdentityRole per il tipo di ruolo.
+
+AddEntityFrameworkStores<ApplicationDbContext>(): Questo configura il sistema di Identità per utilizzare
+Entity Framework Core per memorizzare le informazioni degli utenti in un database, utilizzando specificamente
+ApplicationDbContext come contesto
+*/
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddResponseCaching();
 builder.Services.AddScoped<IVillaRepository, VillaRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();

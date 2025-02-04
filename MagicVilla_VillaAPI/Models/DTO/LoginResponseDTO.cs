@@ -3,9 +3,10 @@
     public class LoginResponseDTO
     {
         //LoginResponseDTO avrà tutti i dati dell'utente
-        public LocalUser User { get; set; }
+        public UserDTO User { get; set; }
 
         //Utilizzato per autenticare e convalidare l'identità dell'utente
         public string Token { get; set; }
+        public string Role  { get; set; }
     }
 }
