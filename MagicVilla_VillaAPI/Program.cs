@@ -251,6 +251,7 @@ if (app.Environment.IsDevelopment())
         //default endpoint
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Magic_VillaV1");
         options.SwaggerEndpoint("/swagger/v2/swagger.json", "Magic_VillaV2");
+        //options.RoutePrefix = String.Empty;
     });
 }
 
