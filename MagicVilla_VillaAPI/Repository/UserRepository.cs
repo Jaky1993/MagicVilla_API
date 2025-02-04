@@ -125,7 +125,7 @@ namespace MagicVilla_VillaAPI.Repository
             return loginResponseDTO;
         }
 
-        public async Task<LocalUser> Register(RegistrationRequestDTO registrationRequestDTO)
+        public async Task<UserDTO> Register(RegistrationRequestDTO registrationRequestDTO)
         {
             ApplicationUser user = new ApplicationUser();
 
@@ -152,13 +152,7 @@ namespace MagicVilla_VillaAPI.Repository
 
             }
 
-            _db.LocalUser.Add(user);
-
-            await _db.SaveChangesAsync();
-
-            user.Password = "";
-
-            return user;
+            return new UserDTO();
         }
     }
 }
